@@ -17,11 +17,11 @@ export default function Desktop({ form, onSubmit }: Props) {
     if (registerData) {
       register(registerData)
         .then((response) => {
-          console.log("Registration successful:", response);
+          toast.success("Registration successful");
           onSubmit(registerData.email, registerData.password);
         })
         .catch((error) => {
-          console.error("Registration failed:", error.message);
+          toast.error(error.message);
         });
     }
   }, [registerData, onSubmit]);

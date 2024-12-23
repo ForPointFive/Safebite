@@ -22,13 +22,13 @@ export default function SignUpPage() {
         callbackUrl: "/",
       }).then((res) => {
         if (res?.error) {
-          toast.error("Invalid username or password");
+          toast.error("Invalid username or password", {duration: 5000});
         } else {
-          toast.success("Login successfully");
+          toast.success("Login successfully", {duration: 5000});
           router.push("/");
         }
       }).catch((error) => {
-        toast.error("An unexpected error occurred");
+        toast.error("An unexpected error occurred", {duration: 5000});
         console.error("Sign-in error:", error);
       });
     }

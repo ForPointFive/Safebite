@@ -8,7 +8,6 @@ import { GoogleRegisterComponent } from "./Google";
 import { Props } from "../../signin/components/Desktop";
 import { jwtDecode } from "jwt-decode";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 
 export default function Mobile({ form, onSubmit }: Props) {
   const [registerData, setRegisterData] = useState<RegisterForm | null>(null);
@@ -17,11 +16,11 @@ export default function Mobile({ form, onSubmit }: Props) {
     if (registerData) {
       register(registerData)
         .then((response) => {
-          console.log("Registration successful:", response);
+          toast.success("Registration successful");
           onSubmit(registerData.email, registerData.password);
         })
         .catch((error) => {
-          console.error("Registration failed:", error.message);
+          toast.error(error.message);
         });
     }
   }, [registerData, onSubmit]);
@@ -54,7 +53,7 @@ export default function Mobile({ form, onSubmit }: Props) {
   };
 
   const onError = () => {
-    console.error("Login Failed");
+    toast.error("Login Failed");
   };
 
   return (
@@ -89,9 +88,22 @@ export default function Mobile({ form, onSubmit }: Props) {
               rules={[
                 { required: true, message: "Please input your password!" },
                 { min: 8, message: "Password must be at least 8 characters long" },
+                { max: 20, message: "Password must be at most 20 characters long" },
                 {
-                  pattern: /^(?=.*[0-9])(?=.*[!@#$%^&*])/,
-                  message: "Password must include at least one number and one special character"
+                  pattern: /[a-z]/,
+                  message: "Password must include at least one lowercase letter.",
+                },
+                {
+                  pattern: /[A-Z]/,
+                  message: "Password must include at least one uppercase letter.",
+                },
+                {
+                  pattern: /\d/,
+                  message: "Password must include at least one number.",
+                },
+                {
+                  pattern: /[@$!%*?&]/,
+                  message: "Password must include at least one special character.",
                 }
               ]}
             >
