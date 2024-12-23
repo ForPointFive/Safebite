@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Form } from "antd";
 import toast from "react-hot-toast";
@@ -27,8 +27,14 @@ export default function SigninPage() {
     if (res?.error) {
       toast.error("Invalid username or password");
     } else {
-      toast.success("Login successfully");
-      router.push("/");
+      const session = await getSession();
+
+      if (session) {
+        toast.success("Login successfully");
+        router.push("/");
+      } else {
+        toast.error("Failed to retrieve session.");
+      }
     }
   };
 

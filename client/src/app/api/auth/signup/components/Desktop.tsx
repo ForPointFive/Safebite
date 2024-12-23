@@ -7,11 +7,11 @@ import { register, RegisterForm } from "@/libs/register";
 import { GoogleRegisterComponent } from "./Google";
 import { Props } from "../../signin/components/Desktop";
 import { jwtDecode } from "jwt-decode";
-import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 export default function Desktop({ form, onSubmit }: Props) {
   const [registerData, setRegisterData] = useState<RegisterForm | null>(null);
+  const [googleLogin, setGoogleLogin] = useState<boolean>(false);
 
   useEffect(() => {
     if (registerData) {
@@ -24,7 +24,7 @@ export default function Desktop({ form, onSubmit }: Props) {
           toast.error(error.message);
         });
     }
-  }, [registerData, onSubmit]);
+  }, [registerData, googleLogin, onSubmit]);
 
   const onFinish = (values: any) => {
     const payload: RegisterForm = {
@@ -51,6 +51,7 @@ export default function Desktop({ form, onSubmit }: Props) {
       role: 'user',
     };
     setRegisterData(user);
+    setGoogleLogin(true);
   };
 
   const onError = () => {
